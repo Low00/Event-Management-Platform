@@ -4,12 +4,12 @@ Official technical assessment submission for **United Nations Association Indone
 
 **Live Demo:** [https://event-nine-tawny.vercel.app/](https://event-nine-tawny.vercel.app/)
 
-Summary
+->Summary
 The **Event Management Platform** is designed to address the organization's need to display, manage, and track upcoming activities, conferences, training sessions, and social campaigns aligned with the Sustainable Development Goals (SDGs). 
 
 The application features a fully responsive multi-page architecture built using modern Vanilla HTML5, CSS3, and JavaScript, backed by client-side state persistence (`localStorage`) to simulate a complete production-ready backend workflow.
 
-Key Features
+->Key Features
 1. **Homepage (`index.html`):** 
    - Organization hero section with UN-inspired professional branding.
    - Live statistics counters (Active Events, Total Volunteers/Registrants, Impacted Regions).
@@ -28,13 +28,22 @@ Key Features
    - **CRUD Operations:** Secure interface for administrators to add new activities dynamically or remove past entries.
    - Real-time tabular view of all registered participants and their motivations.
 
-Technology Stack
+->Technology Stack
 * **Frontend:** HTML5, CSS3 (Custom Grid, Flexbox, Variables), Vanilla JavaScript (ES6+).
 * **Icons & Styling:** FontAwesome, Inter Font Family.
 * **Storage:** Browser `localStorage` API for state management.
 * **Deployment:** Vercel Cloud Platform.
 
----
+# AI Utilization Report - UNAI Event Management Platform
+
+In accordance with the AI Usage Guidelines of the United Nations Association Indonesia (UNAI) Technical Case Challenge, this document details the AI tools, prompts, and contributions utilized during the development of this project.
+
+->AI Report
+* **Google Gemini:** Used minimally as a supplementary reference assistant specifically for minor CSS styling adjustments (`style.css`).
+* **Assisted Components:** 
+  - Minor suggestions for styling rules and responsive layout adjustments within `style.css`.
+
+
 Project Structure
 ```text
 ├── index.html          # Homepage
