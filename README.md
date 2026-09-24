@@ -11,7 +11,7 @@ Installation Steps:
 1. Clone the Repository:
    Clone this repository to your local machine via terminal:
    ```bash
-   git clone [https://github.com/Low00/Event.git](https://github.com/Low00/Event.git)
+   git clone https://github.com/Low00/Event-Management-Platform.git
 2. Open Project Folder:
 Open the cloned folder using your preferred text editor (e.g., VS Code).
 
