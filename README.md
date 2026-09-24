@@ -4,6 +4,25 @@ Official technical assessment submission for **United Nations Association Indone
 
 **Live Demo:** [https://event-nine-tawny.vercel.app/](https://event-nine-tawny.vercel.app/)
 
+->Setup Instructions & Local Development
+Follow these steps to run the application locally on your computer:
+
+Installation Steps:
+1. Clone the Repository:
+   Clone this repository to your local machine via terminal:
+   ```bash
+   git clone [https://github.com/Low00/Event.git](https://github.com/Low00/Event.git)
+2. Open Project Folder:
+Open the cloned folder using your preferred text editor (e.g., VS Code).
+
+3. Run the Application:
+You can directly open the index.html file by double-clicking it in your local directory, or Use the Live Server extension in VS Code (right-click on index.html and select Open with Live Server).
+
+4. Feature Testing:
+Homepage & Event List: Explore upcoming activities and use the live search or category filters.
+Registration: Open any event detail page and submit the volunteer registration form (saved locally via localStorage).
+Admin Dashboard: Access the admin.html page to review incoming registrants or dynamically add new events.
+
 ->Summary
 The **Event Management Platform** is designed to address the organization's need to display, manage, and track upcoming activities, conferences, training sessions, and social campaigns aligned with the Sustainable Development Goals (SDGs). 
 
@@ -37,7 +56,7 @@ The application features a fully responsive multi-page architecture built using 
 ->AI Report
 * **Google Gemini:** Used minimally as a supplementary reference assistant specifically for minor CSS styling adjustments (`style.css`).
 * **Assisted Components:** 
-  - Minor suggestions for styling rules and responsive layout adjustments within `style.css`.
+Minor suggestions for styling rules and responsive layout adjustments within `style.css`.
 
 
 Project Structure
