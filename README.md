@@ -34,10 +34,6 @@ The application features a fully responsive multi-page architecture built using 
 * **Storage:** Browser `localStorage` API for state management.
 * **Deployment:** Vercel Cloud Platform.
 
-# AI Utilization Report - UNAI Event Management Platform
-
-In accordance with the AI Usage Guidelines of the United Nations Association Indonesia (UNAI) Technical Case Challenge, this document details the AI tools, prompts, and contributions utilized during the development of this project.
-
 ->AI Report
 * **Google Gemini:** Used minimally as a supplementary reference assistant specifically for minor CSS styling adjustments (`style.css`).
 * **Assisted Components:** 
