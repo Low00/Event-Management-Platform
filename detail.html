@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detail Kegiatan - UNAI Event Platform</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  
+    <header>
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <div class="logo-icon"><i class="fa-solid fa-globe"></i></div>
+                <span>UNAI Events</span>
+            </a>
+            <div class="menu-toggle" onclick="toggleMobileMenu()">
+                <i class="fa-solid fa-bars"></i>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Beranda</a></li>
+                <li><a href="events.html" class="active">Daftar Acara</a></li>
+                <li><a href="calendar.html">Kalender</a></li>
+                <li><a href="admin.html" class="nav-admin-btn"><i class="fa-solid fa-lock"></i> Admin</a></li>
+            </ul>
+        </div>
+    </header>
+
+   
+    <div class="container">
+        <a href="events.html" style="color: var(--accent); font-weight: 600; display: inline-block; margin-bottom: 1.5rem;"><i class="fa-solid fa-arrow-left"></i> Kembali ke Daftar Acara</a>
+
+        <div class="detail-container">
+         
+            <div class="detail-main" id="eventDetailContent">
+               
+            </div>
+
+          
+            <div class="detail-sidebar">
+                <h3 style="margin-bottom: 1.5rem; color: var(--primary);">Formulir Pendaftaran</h3>
+                <div id="alertBox"></div>
+                <form id="registrationForm" onsubmit="handleRegistration(event)">
+                    <div class="form-group">
+                        <label>Nama Lengkap</label>
+                        <input type="text" id="regName" required placeholder="Masukkan nama lengkap...">
+                    </div>
+                    <div class="form-group">
+                        <label>Alamat Email</label>
+                        <input type="email" id="regEmail" required placeholder="nama@email.com">
+                    </div>
+                    <div class="form-group">
+                        <label>Nomor WhatsApp</label>
+                        <input type="text" id="regPhone" required placeholder="08xxxxxxxxxx">
+                    </div>
+                    <div class="form-group">
+                        <label>Motivasi Bergabung</label>
+                        <textarea id="regMotivation" rows="3" required placeholder="Ceritakan motivasi Anda mengikuti kegiatan ini..."></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">Kirim Pendaftaran</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-bottom" style="border:none; padding: 2rem 0;">
+            <p>&copy; 2026 United Nations Association Indonesia. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        const params = getQueryParams();
+        const eventId = parseInt(params.id) || 1;
+        const events = JSON.parse(localStorage.getItem('unai_events')) || [];
+        const currentEvent = events.find(e => e.id === eventId);
+
+        const mainContent = document.getElementById('eventDetailContent');
+
+        if (!currentEvent) {
+            mainContent.innerHTML = `<h2>Kegiatan tidak ditemukan.</h2><p>Silakan kembali ke halaman daftar acara.</p>`;
+            document.querySelector('.detail-sidebar').style.display = 'none';
+        } else {
+            mainContent.innerHTML = `
+                <div class="event-badge" style="position: relative; display: inline-block; margin-bottom: 1rem; top:0; left:0;">${currentEvent.category}</div>
+                <h1 style="font-size: 2.25rem; color: var(--primary); margin-bottom: 1.5rem; line-height: 1.3;">${currentEvent.name}</h1>
+                
+                <div class="detail-header-img">
+                    <img src="${currentEvent.image}" alt="${currentEvent.name}">
+                </div>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; background: var(--light); padding: 1.5rem; border-radius: var(--radius); margin-bottom: 2rem;">
+                    <div class="info-box-item" style="margin-bottom:0;">
+                        <i class="fa-regular fa-calendar"></i>
+                        <div>
+                            <h4>Tanggal Pelaksanaan</h4>
+                            <p>${currentEvent.date}</p>
+                        </div>
+                    </div>
+                    <div class="info-box-item" style="margin-bottom:0;">
+                        <i class="fa-solid fa-location-dot"></i>
+                        <div>
+                            <h4>Lokasi / Platform</h4>
+                            <p>${currentEvent.location}</p>
+                        </div>
+                    </div>
+                    <div class="info-box-item" style="margin-bottom:0;">
+                        <i class="fa-solid fa-user-tie"></i>
+                        <div>
+                            <h4>Person in Charge (PIC)</h4>
+                            <p>${currentEvent.pic}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 style="margin-bottom: 1rem; color: var(--primary);">Deskripsi Kegiatan</h3>
+                <p style="color: var(--gray); line-height: 1.8; font-size: 1.05rem; white-space: pre-line;">${currentEvent.description}</p>
+            `;
+        }
+
+        function handleRegistration(e) {
+            e.preventDefault();
+            const name = document.getElementById('regName').value;
+            const email = document.getElementById('regEmail').value;
+            const phone = document.getElementById('regPhone').value;
+            const motivation = document.getElementById('regMotivation').value;
+
+            const registrations = JSON.parse(localStorage.getItem('unai_registrations')) || [];
+            
+            const newReg = {
+                id: Date.now(),
+                eventId: eventId,
+                name,
+                email,
+                phone,
+                motivation,
+                date: new Date().toISOString().split('T')[0]
+            };
+
+            registrations.push(newReg);
+            localStorage.setItem('unai_registrations', JSON.stringify(registrations));
+
+            document.getElementById('alertBox').innerHTML = `
+                <div style="background: #D1FAE5; color: #065F46; padding: 1rem; border-radius: var(--radius); margin-bottom: 1rem; font-size: 0.9rem;">
+                    <i class="fa-solid fa-circle-check"></i> Pendaftaran berhasil! Data Anda telah tercatat di sistem.
+                </div>
+            `;
+            document.getElementById('registrationForm').reset();
+        }
+    </script>
+</body>
+</html>

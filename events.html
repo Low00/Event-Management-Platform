@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daftar Kegiatan - UNAI Event Platform</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+      <header>
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <div class="logo-icon"><i class="fa-solid fa-globe"></i></div>
+                <span>UNAI Events</span>
+            </a>
+            <div class="menu-toggle" onclick="toggleMobileMenu()">
+                <i class="fa-solid fa-bars"></i>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Beranda</a></li>
+                <li><a href="events.html" class="active">Daftar Acara</a></li>
+                <li><a href="calendar.html">Kalender</a></li>
+                <li><a href="admin.html" class="nav-admin-btn"><i class="fa-solid fa-lock"></i> Admin</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <div class="container">
+        <h2 class="section-title">Semua Kegiatan & Program</h2>
+        <p class="section-subtitle">Temukan kegiatan yang sesuai dengan minat Anda di bidang pembangunan berkelanjutan.</p>
+     
+        <div class="filter-container">
+            <div class="search-input-wrap">
+                <span><i class="fa-solid fa-magnifying-glass"></i></span>
+                <input type="text" id="searchInput" placeholder="Cari nama kegiatan atau lokasi..." onkeyup="filterEvents()">
+            </div>
+            <select id="categoryFilter" class="filter-select" onchange="filterEvents()">
+                <option value="">Semua Kategori</option>
+                <option value="Konferensi">Konferensi</option>
+                <option value="Pelatihan">Pelatihan</option>
+                <option value="Aksi Sosial">Aksi Sosial</option>
+                <option value="Diskusi">Diskusi</option>
+            </select>
+        </div>
+
+
+        <div class="events-grid" id="eventsGrid">
+        
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-bottom" style="border:none; padding: 2rem 0;">
+            <p>&copy; 2026 United Nations Association Indonesia. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        const events = JSON.parse(localStorage.getItem('unai_events')) || [];
+
+        function renderEvents(data) {
+            const grid = document.getElementById('eventsGrid');
+            if(data.length === 0) {
+                grid.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: var(--gray); padding: 3rem;">Tidak ada kegiatan yang ditemukan.</p>`;
+                return;
+            }
+
+            grid.innerHTML = data.map(ev => `
+                <div class="event-card">
+                    <div class="event-img-wrap">
+                        <span class="event-badge">${ev.category}</span>
+                        <img src="${ev.image}" alt="${ev.name}">
+                    </div>
+                    <div class="event-body">
+                        <div class="event-meta">
+                            <span><i class="fa-regular fa-calendar"></i> ${ev.date}</span>
+                            <span><i class="fa-solid fa-location-dot"></i> ${ev.location}</span>
+                        </div>
+                        <h3 class="event-title">${ev.name}</h3>
+                        <p class="event-desc">${ev.description.substring(0, 100)}...</p>
+                        <div class="event-footer">
+                            <span class="event-pic">PIC: <strong>${ev.pic}</strong></span>
+                            <a href="detail.html?id=${ev.id}" class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.85rem;">Detail & Daftar</a>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function filterEvents() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const category = document.getElementById('categoryFilter').value;
+
+            const filtered = events.filter(ev => {
+                const matchQuery = ev.name.toLowerCase().includes(query) || ev.location.toLowerCase().includes(query);
+                const matchCategory = category === "" || ev.category === category;
+                return matchQuery && matchCategory;
+            });
+
+            renderEvents(filtered);
+        }
+
+        renderEvents(events);
+    </script>
+</body>
+</html>

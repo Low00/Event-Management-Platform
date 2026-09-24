@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - UNAI Event Platform</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <header>
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <div class="logo-icon"><i class="fa-solid fa-globe"></i></div>
+                <span>UNAI Admin Panel</span>
+            </a>
+            <div class="menu-toggle" onclick="toggleMobileMenu()">
+                <i class="fa-solid fa-bars"></i>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Kembali ke Website</a></li>
+                <li><a href="admin.html" class="active">Dashboard Admin</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="header-flex">
+            <div>
+                <h2 class="section-title">Dashboard Pengelola</h2>
+                <p class="section-subtitle">Kelola data kegiatan serta pantau pendaftar relawan secara real-time.</p>
+            </div>
+            <button class="btn btn-primary" onclick="openAddEventModal()"><i class="fa-solid fa-plus"></i> Tambah Kegiatan Baru</button>
+        </div>
+
+        <div class="admin-stats">
+            <div class="admin-card">
+                <div class="admin-card-icon"><i class="fa-solid fa-calendar-days"></i></div>
+                <div>
+                    <h3 id="adminTotalEvents" style="font-size: 1.75rem; color: var(--primary);">0</h3>
+                    <p style="color: var(--gray); font-size: 0.9rem;">Total Kegiatan</p>
+                </div>
+            </div>
+            <div class="admin-card">
+                <div class="admin-card-icon"><i class="fa-solid fa-users"></i></div>
+                <div>
+                    <h3 id="adminTotalRegs" style="font-size: 1.75rem; color: var(--primary);">0</h3>
+                    <p style="color: var(--gray); font-size: 0.9rem;">Total Pendaftar</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="addEventCard" style="display: none; background: var(--white); padding: 2rem; border-radius: var(--radius); border: 1px solid var(--border-color); margin-bottom: 2.5rem; box-shadow: var(--shadow-sm);">
+            <h3 style="margin-bottom: 1.5rem; color: var(--primary);">Tambah Kegiatan Baru</h3>
+            <form id="newEventForm" onsubmit="saveNewEvent(event)">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div class="form-group">
+                        <label>Nama Kegiatan</label>
+                        <input type="text" id="newTitle" required placeholder="Contoh: Diskusi SDGs...">
+                    </div>
+                    <div class="form-group">
+                        <label>Kategori</label>
+                        <select id="newCategory" class="filter-select" style="width: 100%;">
+                            <option value="Konferensi">Konferensi</option>
+                            <option value="Pelatihan">Pelatihan</option>
+                            <option value="Aksi Sosial">Aksi Sosial</option>
+                            <option value="Diskusi">Diskusi</option>
+                        </select>
+                    </div>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem;">
+                    <div class="form-group">
+                        <label>Tanggal</label>
+                        <input type="date" id="newDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Lokasi</label>
+                        <input type="text" id="newLocation" required placeholder="Gedung / Zoom">
+                    </div>
+                    <div class="form-group">
+                        <label>Nama PIC</label>
+                        <input type="text" id="newPic" required placeholder="Nama Penanggung Jawab">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>URL Gambar Banner</label>
+                    <input type="url" id="newImage" required placeholder="https://images.unsplash.com/...">
+                </div>
+                <div class="form-group">
+                    <label>Deskripsi Lengkap</label>
+                    <textarea id="newDesc" rows="4" required placeholder="Rincian kegiatan..."></textarea>
+                </div>
+                <div style="display: flex; gap: 1rem;">
+                    <button type="submit" class="btn btn-primary">Simpan Kegiatan</button>
+                    <button type="button" class="btn btn-outline" style="color: var(--dark); border-color: var(--border-color);" onclick="openAddEventModal()">Batal</button>
+                </div>
+            </form>
+        </div>
+
+        <h3 style="margin-bottom: 1rem; color: var(--primary);">Daftar Pendaftar Masuk</h3>
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Nama Pendaftar</th>
+                        <th>Email</th>
+                        <th>WhatsApp</th>
+                        <th>Motivasi</th>
+                        <th>Tanggal Daftar</th>
+                    </tr>
+                </thead>
+                <tbody id="registrantsTableBody">
+                </tbody>
+            </table>
+        </div>
+
+        <h3 style="margin-bottom: 1rem; color: var(--primary);">Kelola Data Kegiatan</h3>
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nama Kegiatan</th>
+                        <th>Kategori</th>
+                        <th>Tanggal</th>
+                        <th>Lokasi</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody id="eventsTableBody">
+                
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-bottom" style="border:none; padding: 2rem 0;">
+            <p>&copy; 2026 United Nations Association Indonesia. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        function loadAdminData() {
+            const events = JSON.parse(localStorage.getItem('unai_events')) || [];
+            const regs = JSON.parse(localStorage.getItem('unai_registrations')) || [];
+
+            document.getElementById('adminTotalEvents').innerText = events.length;
+            document.getElementById('adminTotalRegs').innerText = regs.length;
+
+            const regBody = document.getElementById('registrantsTableBody');
+            if(regs.length === 0) {
+                regBody.innerHTML = `<tr><td colspan="6" style="text-align:center; color: var(--gray);">Belum ada pendaftar.</td></tr>`;
+            } else {
+                regBody.innerHTML = regs.map((r, i) => `
+                    <tr>
+                        <td>${i+1}</td>
+                        <td><strong>${r.name}</strong></td>
+                        <td>${r.email}</td>
+                        <td>${r.phone}</td>
+                        <td>${r.motivation}</td>
+                        <td>${r.date}</td>
+                    </tr>
+                `).join('');
+            }
+
+        
+            const evBody = document.getElementById('eventsTableBody');
+            evBody.innerHTML = events.map(e => `
+                <tr>
+                    <td><strong>${e.name}</strong></td>
+                    <td><span class="badge badge-upcoming">${e.category}</span></td>
+                    <td>${e.date}</td>
+                    <td>${e.location}</td>
+                    <td>
+                        <button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; color: var(--danger); border-color: var(--danger);" onclick="deleteEvent(${e.id})"><i class="fa-solid fa-trash"></i> Hapus</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function openAddEventModal() {
+            const card = document.getElementById('addEventCard');
+            card.style.display = card.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function saveNewEvent(e) {
+            e.preventDefault();
+            const events = JSON.parse(localStorage.getItem('unai_events')) || [];
+
+            const newEvent = {
+                id: Date.now(),
+                name: document.getElementById('newTitle').value,
+                category: document.getElementById('newCategory').value,
+                date: document.getElementById('newDate').value,
+                location: document.getElementById('newLocation').value,
+                pic: document.getElementById('newPic').value,
+                image: document.getElementById('newImage').value,
+                description: document.getElementById('newDesc').value,
+                status: "Mendatang"
+            };
+
+            events.push(newEvent);
+            localStorage.setItem('unai_events', JSON.stringify(events));
+            document.getElementById('newEventForm').reset();
+            openAddEventModal();
+            loadAdminData();
+            alert('Kegiatan berhasil ditambahkan!');
+        }
+
+        function deleteEvent(id) {
+            if(confirm('Apakah Anda yakin ingin menghapus kegiatan ini?')) {
+                let events = JSON.parse(localStorage.getItem('unai_events')) || [];
+                events = events.filter(e => e.id !== id);
+                localStorage.setItem('unai_events', JSON.stringify(events));
+                loadAdminData();
+            }
+        }
+
+        loadAdminData();
+    </script>
+</body>
+</html>

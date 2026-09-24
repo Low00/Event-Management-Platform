@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UNAI Event Platform - United Nations Association Indonesia</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+
+    <header>
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <div class="logo-icon"><i class="fa-solid fa-globe"></i></div>
+                <span>UNAI Events</span>
+            </a>
+            <div class="menu-toggle" onclick="toggleMobileMenu()">
+                <i class="fa-solid fa-bars"></i>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html" class="active">Beranda</a></li>
+                <li><a href="events.html">Daftar Acara</a></li>
+                <li><a href="calendar.html">Kalender</a></li>
+                <li><a href="admin.html" class="nav-admin-btn"><i class="fa-solid fa-lock"></i> Admin</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>United Nations Association Indonesia</h1>
+            <p>Platform resmi pengelolaan kegiatan, konferensi, diskusi publik, dan aksi sosial kepemudaan untuk mendukung Tujuan Pembangunan Berkelanjutan (SDGs).</p>
+            <div class="hero-btns">
+                <a href="events.html" class="btn btn-primary">Jelajahi Acara</a>
+                <a href="calendar.html" class="btn btn-outline">Lihat Kalender</a>
+            </div>
+        </div>
+    </section>
+
+   
+    <div class="container">
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number" id="stat-events">0</div>
+                <div class="stat-label">Total Kegiatan Aktif</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="stat-regs">0</div>
+                <div class="stat-label">Total Pendaftar / Relawan</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">34</div>
+                <div class="stat-label">Provinsi Terjangkau</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">100%</div>
+                <div class="stat-label">Dukungan Pemuda</div>
+            </div>
+        </div>
+
+ 
+        <div class="header-flex">
+            <div>
+                <h2 class="section-title">Kegiatan Mendatang</h2>
+                <p class="section-subtitle">Ikuti dan daftarkan diri Anda pada program-program inspiratif UNA Indonesia.</p>
+            </div>
+            <a href="events.html" class="btn btn-outline" style="color: var(--primary); border-color: var(--primary);">Semua Acara &rarr;</a>
+        </div>
+
+        <div class="events-grid" id="featured-events-grid">
+            
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-col">
+                <h3>UNAI Event Management Platform</h3>
+                <p>Mendorong partisipasi aktif masyarakat dan pemuda Indonesia dalam mewujudkan visi global Perserikatan Bangsa-Bangsa.</p>
+                <p>&copy; 2026 United Nations Association Indonesia. Hak Cipta Dilindungi.</p>
+            </div>
+            <div class="footer-col">
+                <h3>Navigasi</h3>
+                <ul>
+                    <li><a href="index.html">Beranda</a></li>
+                    <li><a href="events.html">Daftar Acara</a></li>
+                    <li><a href="calendar.html">Kalender Bulanan</a></li>
+                    <li><a href="admin.html">Dashboard Admin</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>Kontak</h3>
+                <p><i class="fa-solid fa-envelope"></i> sekretariat@unai.or.id</p>
+                <p><i class="fa-solid fa-location-dot"></i> Jakarta, Indonesia</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>Developed for UN Association Indonesia Volunteer Technical Challenge</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Render stats & featured items
+        const events = JSON.parse(localStorage.getItem('unai_events')) || [];
+        const regs = JSON.parse(localStorage.getItem('unai_registrations')) || [];
+
+        document.getElementById('stat-events').innerText = events.length;
+        document.getElementById('stat-regs').innerText = regs.length;
+
+        const grid = document.getElementById('featured-events-grid');
+        grid.innerHTML = events.slice(0, 3).map(ev => `
+            <div class="event-card">
+                <div class="event-img-wrap">
+                    <span class="event-badge">${ev.category}</span>
+                    <img src="${ev.image}" alt="${ev.name}">
+                </div>
+                <div class="event-body">
+                    <div class="event-meta">
+                        <span><i class="fa-regular fa-calendar"></i> ${ev.date}</span>
+                        <span><i class="fa-solid fa-location-dot"></i> ${ev.location}</span>
+                    </div>
+                    <h3 class="event-title">${ev.name}</h3>
+                    <p class="event-desc">${ev.description.substring(0, 100)}...</p>
+                    <div class="event-footer">
+                        <span class="event-pic">PIC: <strong>${ev.pic}</strong></span>
+                        <a href="detail.html?id=${ev.id}" class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.85rem;">Detail & Daftar</a>
+                    </div>
+                </div>
+            </div>
+        `).join('');
+    </script>
+</body>
+</html>
